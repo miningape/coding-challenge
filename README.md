@@ -1,3 +1,11 @@
+# Solution
+## Useful Docs
+[NestJS](docs.nestjs.com)
+[Nest Microservices, NATS](https://docs.nestjs.com/microservices/basics)
+[Nest Micro article](https://dev.to/nestjs/integrate-nestjs-with-external-services-using-microservice-transporters-part-1-p3)
+[Custom Transport](https://docs.nestjs.com/microservices/custom-transport#creating-a-strategy)
+
+
 # Welcome to Welds coding-challenge
 
 ## Introduction
