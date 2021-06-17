@@ -4,16 +4,22 @@ import { WorkerService } from './worker.service';
 
 @Controller()
 export class WorkerController {
-  constructor(private readonly workerService: WorkerService) {}
+  constructor(
+    private readonly workerService: WorkerService,
+  ) {}
 
   @MessagePattern( {cmd: 'start'} )
-  startMicroservice(@Payload() data: any ): string {
+  startMicroservice(@Payload() data: string ): string {
     console.log( 'Microservice Started for ' + data )
-    return 'started'
+    this.workerService.startWorker( parseInt( data ) )
+    return 'Worker Started'
   }
 
   @MessagePattern( {cmd: 'stop'} )
   stopMicroservice( data: any ): string {
-    return 'Microservice Stopped';
+    this.workerService.stopWorker();
+    return 'Worker Stopped';
   }
+
+  
 }

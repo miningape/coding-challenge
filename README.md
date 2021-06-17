@@ -5,6 +5,10 @@
 [Nest Micro article](https://dev.to/nestjs/integrate-nestjs-with-external-services-using-microservice-transporters-part-1-p3)
 [Custom Transport](https://docs.nestjs.com/microservices/custom-transport#creating-a-strategy)
 
+## My installs
+npm install --save-dev @types/cron
+npm install --save @nest/schedule
+
 
 # Welcome to Welds coding-challenge
 

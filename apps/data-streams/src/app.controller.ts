@@ -28,9 +28,13 @@ export class AppController {
    */
   @Get('/start/:interval?')
   startWorker(@Param('interval', ParseIntPipe) interval : number): string {
-    this.client.connect();
+    //this.client.connect();
     let x = this.client.send( {cmd: 'start'}, interval || 5 );
-    x.subscribe( data => console.log(data) )
+    let y = x.subscribe( data => console.log(data), () => {}, () => { console.log("complete") } );
+
+    console.log(y.closed)
+
+
     return `Started Worker, refreshing connection every ${interval || 5} minutes`;
   }
 
