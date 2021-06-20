@@ -9,14 +9,11 @@ export class WorkerService {
   ) {}
   
   startWorker(milliseconds: number) : void {
-    let callback = () => {
-      this.retrieveData( this.httpService );
-    }
-
-    this.retrieveData( this.httpService );
+    this.retrieveData();
 
     // Creating our interval, multiply by 60000 to make it in mins
-    const interval = setInterval(callback, milliseconds * 60000 /4);
+    // Must bind 'this' to callback otherwise it goesout of scope
+    const interval = setInterval(this.retrieveData.bind(this), milliseconds * 60000 /4);
 
     // Stop any current worker
     this.stopWorker()
@@ -32,9 +29,16 @@ export class WorkerService {
       this.schedulerRegistry.deleteInterval("WORKER");
   }
 
-  retrieveData( http: HttpService ) {
+  /**
+   * This actually performs the worker's requests
+   * 
+   * @param http HttpService from nestjs
+   */
+  retrieveData( ) {
     console.log(`Interval worker executing at time ()!`);
-    http.get('https://raw.githubusercontent.com/miningape/coding-challenge/main/db.json').subscribe(
+    // I'm mocking the data, it's just looking at this repository on github and GETting the db.json file
+    // I did this so I can change the value to test it
+    this.httpService.get('https://raw.githubusercontent.com/miningape/coding-challenge/main/db.json').subscribe(
       (data) => console.log(data.data),
       (e) => console.log("Error: ", e),
       () => console.log("Done")
