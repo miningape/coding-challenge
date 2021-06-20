@@ -9,19 +9,21 @@ export class WorkerService {
   ) {}
   
   startWorker(milliseconds: number) : void {
-    // Dummy callback to call retrieveData() with paramss
-    const callback = () => {
-      this.retrieveData();
-    };
-  
-    // Creating our interval
-    const interval = setInterval(callback, milliseconds);
+    let callback = () => {
+      this.retrieveData( this.httpService );
+    }
+
+    this.retrieveData( this.httpService );
+
+    // Creating our interval, multiply by 60000 to make it in mins
+    const interval = setInterval(callback, milliseconds * 60000 /4);
 
     // Stop any current worker
     this.stopWorker()
 
     // Create interval in the API
     this.schedulerRegistry.addInterval("WORKER", interval);
+    console.log("Worker Started")
   }
 
   stopWorker() : void {
@@ -30,9 +32,13 @@ export class WorkerService {
       this.schedulerRegistry.deleteInterval("WORKER");
   }
 
-  retrieveData(  ) {
+  retrieveData( http: HttpService ) {
     console.log(`Interval worker executing at time ()!`);
-    this.httpService.get('');
+    http.get('https://raw.githubusercontent.com/miningape/coding-challenge/main/db.json').subscribe(
+      (data) => console.log(data.data),
+      (e) => console.log("Error: ", e),
+      () => console.log("Done")
+    );
   }
 
 
