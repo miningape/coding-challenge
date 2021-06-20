@@ -1,16 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 
 @Injectable()
 export class WorkerService {
   constructor(
-    private schedulerRegistry: SchedulerRegistry
+    private schedulerRegistry: SchedulerRegistry,
+    private httpService: HttpService
   ) {}
   
   startWorker(milliseconds: number) : void {
     // Dummy callback to call retrieveData() with paramss
     const callback = () => {
-      this.retrieveData( milliseconds );
+      this.retrieveData();
     };
   
     // Creating our interval
@@ -29,8 +30,9 @@ export class WorkerService {
       this.schedulerRegistry.deleteInterval("WORKER");
   }
 
-  retrieveData( milliseconds: number ) {
-    console.log(`Interval worker executing at time (${milliseconds})!`);
+  retrieveData(  ) {
+    console.log(`Interval worker executing at time ()!`);
+    this.httpService.get('');
   }
 
 
