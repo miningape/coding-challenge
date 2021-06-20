@@ -29,8 +29,11 @@ export class AppController {
   @Get('/start/:interval?')
   startWorker(@Param('interval', ParseIntPipe) interval : number): string {
     //this.client.connect();
-    let x = this.client.send( {cmd: 'start'}, interval || 5 );
-    x.subscribe( data => console.log(data), () => {}, () => { console.log("complete") } );
+    this.client.send( {worker: 'start'}, interval || 5 ).subscribe( 
+      data => console.log(data),        // Next
+      () => {},                         // Error
+      () => { console.log("Started Worker") } // Complete
+    );
 
 
     return `Started Worker, refreshing connection every ${interval || 5} minutes`;
@@ -38,6 +41,12 @@ export class AppController {
 
   @Get('/stop')
   stopWorker(): string {
+    this.client.send( {worker: 'stop'}, {} ).subscribe( 
+      data => console.log(data),        // Next
+      () => {},                         // Error
+      () => { console.log("Stopped Worker") } // Complete
+    );
+
     return 'Worker Stopped';
   }
 }
