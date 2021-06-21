@@ -20,7 +20,7 @@ export class AppController {
    */
   @Get('/data')
   getData(): string {
-    return 'Data Lol';
+    return this.appService.getData();
   }
 
   /**ß

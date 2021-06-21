@@ -11,6 +11,7 @@ export class ApiController {
     @MessagePattern( { 'data-stream': 'send' } )
     recieveData( @Payload() data: any ): string {
         console.log('Recieved: ', data);
+        this.appService.setData( data );
         return 'Data Recieved';
     }
 }
