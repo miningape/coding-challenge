@@ -1,7 +1,6 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, HttpService, Inject } from '@nestjs/common';
+import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { WorkerService } from './worker.service';
-
 @Controller()
 export class WorkerController {
   constructor(

@@ -1,11 +1,13 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpService, Injectable,Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { SchedulerRegistry } from '@nestjs/schedule';
 
 @Injectable()
 export class WorkerService {
   constructor(
     private schedulerRegistry: SchedulerRegistry,
-    private httpService: HttpService
+    private httpService: HttpService,
+    @Inject('Data-Com') private client: ClientProxy
   ) {}
   
   startWorker(milliseconds: number) : void {
@@ -32,14 +34,18 @@ export class WorkerService {
   /**
    * This actually performs the worker's requests
    * 
-   * @param http HttpService from nestjs
+   * It is bound to an inverval, and uses the HttpService instance in 'this' class
    */
-  retrieveData( ) {
+  retrieveData( ): void {
     console.log(`Interval worker executing at time ()!`);
-    // I'm mocking the data, it's just looking at this repository on github and GETting the db.json file
+    // I'm mocking the data, it's just looking at this repository on github and GETting the 'db.json' file in the root directory
     // I did this so I can change the value to test it
     this.httpService.get('https://raw.githubusercontent.com/miningape/coding-challenge/main/db.json').subscribe(
-      (data) => console.log(data.data),
+      // When data is recieved it calls this function, so it must transmit the signal back to the data-stream
+      (data) => {
+        console.log( 'Data Scraped' );
+        this.client.send( {'data-stream': 'send'}, data.data ).subscribe();
+      },
       (e) => console.log("Error: ", e),
       () => console.log("Done")
     );
