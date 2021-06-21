@@ -1,9 +1,10 @@
 # Solution
-## Useful Docs
-[NestJS](docs.nestjs.com)
-[Nest Microservices, NATS](https://docs.nestjs.com/microservices/basics)
-[Nest Micro article](https://dev.to/nestjs/integrate-nestjs-with-external-services-using-microservice-transporters-part-1-p3)
-[Custom Transport](https://docs.nestjs.com/microservices/custom-transport#creating-a-strategy)
+## To-do list
+[ ] Error Checking (High Prio)
+[ ] Testing the code (Med Prio)
+[ ] Add better JSDoc
+[ ] Add documentation/instructions/explainations to readme
+[ ] Fix the 'error' of data not updating ASAP
 
 ## My installs
 npm install --save-dev @types/cron

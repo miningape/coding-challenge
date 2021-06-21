@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
+  // I dont like the idea of saving the data in a variable
+  // Maybe nestjs cache would be a better solution
+  // This was simple/fast to do, which is why I chose it
+  // Not very extendable, so other data sources would need to be saved in another variable (one of the problems with this)
   private data: any;
 
   getHello(): string {

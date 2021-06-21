@@ -44,6 +44,7 @@ export class WorkerService {
       // When data is recieved it calls this function, so it must transmit the signal back to the data-stream
       (data) => {
         console.log( 'Data Scraped: ', data.data );
+        // Should add measures for errors
         this.client.send( {'data-stream': 'send'}, data.data ).subscribe();
       },
       (e) => console.log("Error: ", e),
