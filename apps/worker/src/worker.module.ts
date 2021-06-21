@@ -15,7 +15,7 @@ import { WorkerService } from './worker.service';
         host: 'localhost',
         port: 4001
       }
-    }])
+    }])                       // Client for sending data back
   ],
   controllers: [WorkerController],
   providers: [WorkerService],
