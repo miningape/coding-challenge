@@ -9,7 +9,7 @@ My core approach for scheduling was to use JS's intervals because I'm familliar 
 
 I used TCP because of it's simplicity although there are better approaches.
 
-I didn't really focus on the frontend because you use GraphQL and Next which aren't being tested so it seemed a bit "pointless" to put a lot of effort into the frontend as opposed to making sure the server was working correctly. 
+I didn't focus on the frontend because you use GraphQL and Next which aren't being tested/used so it seemed a bit "pointless" to put a lot of effort into the frontend (because I'm not using relevant tech) as opposed to making sure the server was working correctl. 
 
 I'm a really big fan of logging because it helps me see what is happening on a smaller scale, so I really took advantage of Nest's logger (especially since verbose output can be hidden). Normally I would use less logs and delete them before using the code (for production) but because of how nest is configured it seemed like a really handy tool.
 
@@ -21,7 +21,7 @@ can have their data stored simultaniously.
 
 Initially I used a variable but I didn't like this because it wasn't very extendable, and just seemed like a very bad approach although I don't have a specific reason for this.
 
-I considered using an external solution, storing in a DB, redis or file. For the first 2 they required external applications to be running on the server, and I don't like that in the context of a coding-challenge. For the last, I didn't want the runtime to be affected by slow IO operations.
+I considered using an external solution, storing in a DB, redis or file. For the first 2 they required external applications to be running on the server, and I don't like that in the context of a coding challenge. For the last, I didn't want the runtime to be affected by slow IO operations.
 
 ## Protocol
 I used TCP because I am somewhat familliar with it and it didn't
@@ -34,8 +34,8 @@ provides message acknowledgement, both of which make it reliable. It's
 also widely used so there would be good documentation/support online, 
 and has proven use in distributed systems architecture.
 
-I chose not to consider gRPC because I have never used it, although 
-I'd like to learn it and while it seems useful I didn't want to go through 
+I chose not to consider gRPC because I have never used it (although 
+I'd like to learn it) and while it seems useful I didn't want to go through 
 extra configurations for a service that didn't seem like it offered 
 anything better than a message broker (which I already didn't want to use).
 
@@ -48,7 +48,7 @@ anything better than a message broker (which I already didn't want to use).
 - [ ] Optimization (Ensure Async, research more)
 
 ## How to Run
-Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such.
+Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such. The worker should be started first as data-stream checks if it can connect to the worker.
 
 ## Shortcomings
 Doesn't use external services, I think using RMQ or another message broker that supports queues and data reception would be good because it would ensure reliability, provide better error checking, and be extendable to other workers. 
