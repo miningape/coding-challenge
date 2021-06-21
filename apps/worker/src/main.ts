@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { WorkerModule } from './worker.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger( 'Worker MAIN' );
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(WorkerModule, {
@@ -12,7 +15,7 @@ async function bootstrap() {
   });
 
   app.listen(async () => {
-    console.log('Worker Microservice Has Started');
+    logger.log('Worker Microservice Started');
   });
 }
 

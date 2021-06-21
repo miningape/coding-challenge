@@ -8,8 +8,8 @@ export class WorkerController {
   ) {}
 
   @MessagePattern( {worker: 'start'} )
-  startMicroservice(@Payload() data: string ): string {
-    this.workerService.startWorker( parseInt( data ) )
+  startMicroservice(@Payload() data: number ): string {
+    this.workerService.startWorker( data )
     return 'Worker Started'
   }
 
@@ -18,6 +18,4 @@ export class WorkerController {
     this.workerService.stopWorker();
     return 'Worker Stopped';
   }
-
-  
 }

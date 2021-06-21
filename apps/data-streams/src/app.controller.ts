@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(
     private readonly appService: AppService, 
-    @Inject('Worker-Com') private client: ClientProxy
   ) {}
 
   @Get()
@@ -23,29 +22,19 @@ export class AppController {
     return this.appService.getData();
   }
 
-  /**ß
+  /**
    * Starts worker on a set interval
    */
   @Get('/start/:interval?')
-  startWorker(@Param('interval', ParseIntPipe) interval : number): string {
-    //this.client.connect();
-    this.client.send( {worker: 'start'}, interval || 5 ).subscribe( 
-      data => console.log(data),        // Next
-      () => {},                         // Error
-      () => { console.log("Started Worker") } // Complete
-    );
-
+  startWorker(@Param('interval', ParseIntPipe) interval : number): string {    
+    this.appService.startWorker( interval || 5 );
 
     return `Started Worker, refreshing connection every ${interval || 5} minutes`;
   }
 
   @Get('/stop')
   stopWorker(): string {
-    this.client.send( {worker: 'stop'}, {} ).subscribe( 
-      data => console.log(data),        // Next
-      () => {},                         // Error
-      () => { console.log("Stopped Worker") } // Complete
-    );
+    this.appService.stopWorker( );
 
     return 'Worker Stopped';
   }
