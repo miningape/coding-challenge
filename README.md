@@ -1,10 +1,12 @@
 # Solution
 ## To-do list
 [ ] Error Checking (High Prio)
-[ ] Testing the code (Med Prio)
-[ ] Add better JSDoc
+[ ] Testing modules (High Prio)
+[ ] Add better JSDoc (Probably gonna do first lmao)
 [ ] Add documentation/instructions/explainations to readme
 [ ] Fix the 'error' of data not updating ASAP
+[ ] Add reliability measures (Setup queue so data to handle higher loads/data integrity, Keeping worker open/restarting on crash, adding responses for starting worker again, etc, etc)
+[ ] Optimization (Ensure Async, research more)
 
 ## My installs
 npm install --save-dev @types/cron
