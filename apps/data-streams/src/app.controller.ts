@@ -27,15 +27,22 @@ export class AppController {
    */
   @Get('/start/:interval?')
   startWorker(@Param('interval', ParseIntPipe) interval : number): string {    
-    this.appService.startWorker( interval || 5 );
+    let working = this.appService.startWorker( interval || 5 );
 
-    return `Started Worker, refreshing connection every ${interval || 5} minutes`;
+    return working ? `Started Worker, refreshing connection every ${interval || 5} minutes` 
+                   : 'There was a problem, GET /error for more information';
   }
 
   @Get('/stop')
   stopWorker(): string {
-    this.appService.stopWorker( );
+    let working = this.appService.stopWorker( );
 
-    return 'Worker Stopped';
+    return working ? 'Worker Stopped'
+                   : 'There was a problem, GET /error for more information';
+  }
+
+  @Get('/error')
+  errors(): string {
+    return this.appService.getError();
   }
 }
