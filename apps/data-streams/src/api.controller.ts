@@ -12,7 +12,7 @@ export class ApiController {
 
     @MessagePattern( { 'data-stream': 'send' } )
     recieveData( @Payload() data: any ): string {
-        this.logger.verbose('Recieved: ', data);
+        this.logger.verbose('Recieved:\n' + data);
         this.appService.setData( data );
         return 'Data Recieved';
     }
