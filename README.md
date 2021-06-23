@@ -2,6 +2,37 @@
 I didn't want to use stuff external to Nest because it would complicate
 running it, although in a production setting I would be more open to doing this because it could improve reliability/speed. I tried to keep the code consise, readable and documented. I didn't really explore a lot of Nest's features (guards, interceptors, etc) becuase they seemed a bit unnecessary and I wanted a 100% working solution that I understood completely.
 
+## How to Run
+Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such.
+
+To start the HTTP "data-streams" server:
+```bash
+nest start
+```
+
+To start to worker microservice:
+```bash
+nest start worker
+```
+
+GET /
+Displays a message telling how to use the app, as well as notifies any errors
+
+GET /data:
+This is the data retrieved by the worker
+
+GET /start:
+Starts the worker with an interval of 5 minutes
+
+GET /start/:interval:
+Starts the worker with a set interval (in minutes)
+
+GET /stop:
+Stops the worker from retrieving data
+
+GET /error:
+Shows any errors
+
 ## General Approach
 I focussed on making sure the system was fault tolerant so it is reliable in terms of communicating between microservices, and can tell the user if something has gone wrong. I'm not aware of any techniques for data reliability, I tried googling but didn't find any good answers, but I'd really like to learn more. 
 
@@ -35,34 +66,6 @@ I chose not to consider gRPC because I have never used it (although
 I'd like to learn it) and while it seems useful I didn't want to go through 
 extra configurations for a service that didn't seem like it offered 
 anything better than a message broker (which I already didn't want to use).
-
-## To-do list
-- [x] Error Checking (High Prio)
-- [ ] Testing modules (High Prio)
-- [ ] Add better JSDoc (Probably gonna do first lmao)
-- [x] Add documentation/instructions/explainations to readme
-- [x] Add reliability measures
-
-## How to Run
-Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such. The worker should be started first as data-stream checks if it can connect to the worker.
-
-GET /
-Displays a message telling how to use the app, as well as notifies any errors
-
-GET /data:
-This is the data retrieved by the worker
-
-GET /start:
-Starts the worker with an interval of 5 minutes
-
-GET /start/:interval:
-Starts the worker with a set interval (in minutes)
-
-GET /stop:
-Stops the worker from retrieving data
-
-GET /error:
-Shows any errors
 
 ## Shortcomings
 Doesn't use external services, I think using RMQ or another message broker that supports queues and data reception would be good because it would ensure reliability, provide better error checking, and be extendable to other workers. 
