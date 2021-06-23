@@ -6,6 +6,7 @@ export class AppService {
   constructor(
     @Inject('Worker-Com') private client: ClientProxy,
   ){
+    /*
     client.connect()
       .then(
         (data)  => {
@@ -15,7 +16,7 @@ export class AppService {
           this.logger.error( 'Worker Connection Rejected: ' + error )
           this.error = error;
         }
-      )
+      )*/
   }
 
   // I dont like the idea of saving the data in a variable
@@ -29,11 +30,15 @@ export class AppService {
 
   getHello(): string {
     return (`
-    ${!this.error ? '' : 'It seems like there is an error, GET /error for more info <br /><br />'}
     Welcome to the API endpoint <br />
-    GET /data            returns data from the worker <br />
-    GET /start/?:interval starts the worker with a refresh rate of :interval minutes (default: 5 minutes) <br />
-    GET /stop            stops the worker`);
+    GET /data             returns data from the worker <br />
+    GET /start            starts the worker with a 5 minute interval <br />
+    GET /start/:interval  starts the worker with a refresh rate of :interval minutes (default: 5 minutes) <br />
+    GET /stop             stops the worker
+    GET /error            displays any errors encountered by the Server/Worker
+    <br /><br />
+    ${!this.error ? 'No Errors ' : 'It seems like there is an error, GET /error for more info'}
+    `);
   }
 
   setData( data: any ): void {
@@ -43,18 +48,14 @@ export class AppService {
 
   getData(): any {
     this.logger.verbose( 'Retrieved Data' );
-    return this.data || "Nothing Yet";
+    return this.data || "No Data Retrieved Yet";
   }
 
   getError(): any {
-    if ( !this.error ) {
-      return "No Errors"
-    } else {
-      return this.error;
-    }
+    return this.error || "No Errors";
   }
 
-  startWorker( interval: number ): boolean {
+  startWorker( interval: number ): void {
     this.client.send( {worker: 'start'}, interval ).subscribe( 
       data  => {
         this.logger.verbose( 'Request to Start Worker Sent, Recieved: ' + data );
@@ -66,11 +67,9 @@ export class AppService {
       },                         
       ()    => this.logger.verbose( 'Request to Start Worker Complete' ) 
     );
-
-    return !this.error
   }
 
-  stopWorker( ): boolean {
+  stopWorker( ): void {
     this.client.send( {worker: 'stop'}, {} ).subscribe( 
       data  => {
         this.logger.verbose( 'Request to Stop Worker Sent, Recieved: ' + data );
@@ -83,8 +82,6 @@ export class AppService {
       },                         
       ()    => this.logger.verbose( 'Request to Stop Worker Complete' ) 
     );
-
-    return !this.error
   }
 
 }

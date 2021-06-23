@@ -50,6 +50,21 @@ anything better than a message broker (which I already didn't want to use).
 ## How to Run
 Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such. The worker should be started first as data-stream checks if it can connect to the worker.
 
+GET /data:
+This is the data retrieved by the worker
+
+GET /start:
+Starts the worker with an interval of 5 minutes
+
+GET /start/:interval:
+Starts the worker with a set interval (in minutes)
+
+GET /stop:
+Stops the worker from retrieving data
+
+GET /error:
+Shows any errors
+
 ## Shortcomings
 Doesn't use external services, I think using RMQ or another message broker that supports queues and data reception would be good because it would ensure reliability, provide better error checking, and be extendable to other workers. 
 

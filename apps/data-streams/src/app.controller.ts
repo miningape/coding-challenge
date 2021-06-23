@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param, ParseIntPipe, Redirect } from '@nestjs/common';
+import { Controller, Get, Inject, Param, ParseIntPipe, Redirect, Sse } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
@@ -22,31 +22,31 @@ export class AppController {
     return this.appService.getData();
   }
 
+  /**
+   * Starts worker on fixed interval (5 minutes)
+   */
   @Get('/start')
   startWorker( ) {
-    let working = this.appService.startWorker( 5 );
+    this.appService.startWorker( 5 );
 
-    return working ? `Started Worker, refreshing connection every 5 minutes` 
-                   : 'There was a problem, GET /error for more information';
+    return `Started Worker, refreshing connection every 5 minutes` 
   }
 
   /**
-   * Starts worker on a set interval
+   * Starts worker on a set interval (in minutes)
    */
   @Get('/start/:interval')
   startWorkerInterval(@Param('interval', ParseIntPipe) interval : number): string {    
-    let working = this.appService.startWorker( interval );
+    this.appService.startWorker( interval );
 
-    return working ? `Started Worker, refreshing connection every ${interval || 5} minutes` 
-                   : 'There was a problem, GET /error for more information';
+    return `Started Worker, refreshing connection every ${interval} minutes`; 
   }
 
   @Get('/stop')
   stopWorker(): string {
-    let working = this.appService.stopWorker( );
+    this.appService.stopWorker( );
 
-    return working ? 'Worker Stopped'
-                   : 'There was a problem, GET /error for more information';
+    return 'Worker Stopped';
   }
 
   @Get('/error')

@@ -48,9 +48,8 @@ export class WorkerService {
    */
   retrieveData( ): void {
     this.logger.verbose( 'Retieving Data' );
-    // I'm mocking the data, it's just looking at this repository on github and GETting the 'db.json' file in the root directory
-    // I did this so I can change the value to test it
-    this.httpService.get('https://raw.githubusercontent.com/miningape/coding-challenge/main/db.json').subscribe(
+    // Getting NYT front page articles on the topic of science
+    this.httpService.get('https://api.nytimes.com/svc/topstories/v2/science.json?api-key=Ax4tIsgiyWRuWJ2EpX3RjqTs3IIOwCix').subscribe(
       // When data is recieved it calls this function, so it must transmit the signal back to the data-stream
       data => {
           this.logger.verbose( 'Data Retrieved:\n' + data.data );
