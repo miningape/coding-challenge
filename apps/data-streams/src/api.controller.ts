@@ -2,6 +2,9 @@ import { Controller, Logger } from "@nestjs/common";
 import { MessagePattern,Payload } from "@nestjs/microservices";
 import { AppService } from "./app.service";
 
+/**
+ * Exposes "Endpoint" for our TCP worker to communicate to
+ */
 @Controller()
 export class ApiController {
     constructor(

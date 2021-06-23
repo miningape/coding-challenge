@@ -8,6 +8,10 @@ export class AppController {
     private readonly appService: AppService, 
   ) {}
 
+  /**
+   * 
+   * @returns Message displaying info about useage + errors
+   */
   @Get()
   getHello(): string {
     return this.appService.getHello();
@@ -42,6 +46,9 @@ export class AppController {
     return `Started Worker, refreshing connection every ${interval} minutes`; 
   }
 
+  /**
+   * Stops worker
+   */
   @Get('/stop')
   stopWorker(): string {
     this.appService.stopWorker( );
@@ -49,6 +56,10 @@ export class AppController {
     return 'Worker Stopped';
   }
 
+  /**
+   * 
+   * @returns any errors on the server, specifically for when connectiong/sending/recieving from worker microservice
+   */
   @Get('/error')
   errors(): string {
     return this.appService.getError();

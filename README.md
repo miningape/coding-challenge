@@ -1,27 +1,24 @@
 # Solution
 I didn't want to use stuff external to Nest because it would complicate
-running it, although in a production setting I would be more open to doing this because it could improve reliability/speed. I tried to keep the code consise, readable and documented. I didn't really explore a lot of Nest's features becuase they seemed a bit complicated and I wanted a 100% working solution that I understood completely and only had a little time to work on this.
+running it, although in a production setting I would be more open to doing this because it could improve reliability/speed. I tried to keep the code consise, readable and documented. I didn't really explore a lot of Nest's features (guards, interceptors, etc) becuase they seemed a bit unnecessary and I wanted a 100% working solution that I understood completely.
 
 ## General Approach
 I focussed on making sure the system was fault tolerant so it is reliable in terms of communicating between microservices, and can tell the user if something has gone wrong. I'm not aware of any techniques for data reliability, I tried googling but didn't find any good answers, but I'd really like to learn more. 
 
-My core approach for scheduling was to use JS's intervals because I'm familliar with it although with more time I'd look into CRON more thoughroughly. 
+My approach for scheduling was to use JS's intervals because I'm familliar with it although with more time I'd look into CRON more thoughroughly. 
 
 I used TCP because of it's simplicity although there are better approaches.
 
-I didn't focus on the frontend because you use GraphQL and Next which aren't being tested/used so it seemed a bit "pointless" to put a lot of effort into the frontend (because I'm not using relevant tech) as opposed to making sure the server was working correctl. 
+I didn't focus on the frontend because you use GraphQL and Next which aren't being tested/used so it seemed a bit "pointless" to put a lot of effort into the frontend (because I'm not using relevant tech) as opposed to making sure the server was working correctly. 
 
 I'm a really big fan of logging because it helps me see what is happening on a smaller scale, so I really took advantage of Nest's logger (especially since verbose output can be hidden). Normally I would use less logs and delete them before using the code (for production) but because of how nest is configured it seemed like a really handy tool.
 
 ## Storage
-To store the data retrieved by a worker I used Nest's built in 
-caching system. This is because it seemed like a very simple way 
-to store data, and it is a bit extendable since different workers
-can have their data stored simultaniously.
-
-Initially I used a variable but I didn't like this because it wasn't very extendable, and just seemed like a very bad approach although I don't have a specific reason for this.
+To store the data retrieved by a worker I use a variable, I don't like this because it isn't very extendable, and just seems like a very bad approach although I don't have a specific reason for this.
 
 I considered using an external solution, storing in a DB, redis or file. For the first 2 they required external applications to be running on the server, and I don't like that in the context of a coding challenge. For the last, I didn't want the runtime to be affected by slow IO operations.
+
+I could also have used nests caching service, but it seems a bit overkill for this small application. If there were more workers this would be my 'go to' solution.
 
 ## Protocol
 I used TCP because I am somewhat familliar with it and it didn't
@@ -40,15 +37,17 @@ extra configurations for a service that didn't seem like it offered
 anything better than a message broker (which I already didn't want to use).
 
 ## To-do list
-- [ ] Error Checking (High Prio)
+- [x] Error Checking (High Prio)
 - [ ] Testing modules (High Prio)
 - [ ] Add better JSDoc (Probably gonna do first lmao)
 - [x] Add documentation/instructions/explainations to readme
 - [x] Add reliability measures
-- [ ] Optimization (Ensure Async, research more)
 
 ## How to Run
 Start the worker and the data-stream in any order. If/when a message is sent between the 2 there is some error checking, so if it is unavailable it will output to the user as such. The worker should be started first as data-stream checks if it can connect to the worker.
+
+GET /
+Displays a message telling how to use the app, as well as notifies any errors
 
 GET /data:
 This is the data retrieved by the worker

@@ -38,8 +38,12 @@ describe('Controllers', () => {
       expect(appController.getData()).toBe('Hello World!');
     });
 
-    it('should return "No Data Retrieved Yet"', () => {
+    it('should return "No Data Retrieved Yet" ( setting to null )', () => {
       apiController.recieveData( null );
+      expect(appController.getData()).toBe("No Data Retrieved Yet");
+    });
+
+    it('should return "No Data Retrieved Yet" not setting', () => {
       expect(appController.getData()).toBe("No Data Retrieved Yet");
     });
   });
@@ -51,7 +55,10 @@ describe('Controllers', () => {
 
     it('Should return opening message + error', () => {
       appController.startWorker();
-      expect(appController.getHello()).toContain('more info');
-    })
+
+      // I really dont like doing this
+      // But I cant find any info on how to await for an observable with jest
+      setTimeout(() => expect(appController.getHello()).toContain('more info'), 1000);
+    });
   });
 });
