@@ -29,9 +29,13 @@ describe('WorkerController', () => {
     workerController = app.get<WorkerController>(WorkerController);
   });
 
-  describe('root', () => {
-    it('Tests1', () => {
-      expect("Hello World!").toBe('Hello World!');
+  describe('Checking Endpoints', () => {
+    it('Should return "Worker Started"', () => {
+      expect(workerController.startMicroservice( 123 )).toBe("Worker Started");
+    });
+
+    it('Should return "Worker Stopped"', () => {
+      expect(workerController.stopMicroservice( 123 )).toBe("Worker Stopped");
     });
   });
 });

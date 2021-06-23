@@ -6,7 +6,7 @@ export class AppService {
   constructor(
     @Inject('Worker-Com') private client: ClientProxy,
   ){
-    /*
+    /* I like the auto error reporting for the user, but it causes issues with testing so was removed
     client.connect()
       .then(
         (data)  => {
@@ -34,7 +34,7 @@ export class AppService {
     GET /data             returns data from the worker <br />
     GET /start            starts the worker with a 5 minute interval <br />
     GET /start/:interval  starts the worker with a refresh rate of :interval minutes (default: 5 minutes) <br />
-    GET /stop             stops the worker
+    GET /stop             stops the worker  <br />
     GET /error            displays any errors encountered by the Server/Worker
     <br /><br />
     ${!this.error ? 'No Errors ' : 'It seems like there is an error, GET /error for more info'}

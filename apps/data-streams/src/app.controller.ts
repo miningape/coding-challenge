@@ -33,7 +33,7 @@ export class AppController {
   startWorker( ) {
     this.appService.startWorker( 5 );
 
-    return `Started Worker, refreshing connection every 5 minutes` 
+    return `Started Worker, refreshing data every 5 minutes` 
   }
 
   /**
@@ -43,7 +43,7 @@ export class AppController {
   startWorkerInterval(@Param('interval', ParseIntPipe) interval : number): string {    
     this.appService.startWorker( interval );
 
-    return `Started Worker, refreshing connection every ${interval} minutes`; 
+    return `Started Worker, refreshing data every ${interval} minutes`; 
   }
 
   /**

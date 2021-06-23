@@ -1,5 +1,6 @@
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Test, TestingModule } from '@nestjs/testing';
+import exp from 'constants';
 import { ApiController } from './api.controller';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -53,12 +54,29 @@ describe('Controllers', () => {
       expect(appController.getHello()).toContain('No Errors');
     });
 
-    it('Should return opening message + error', () => {
+    it('Should return opening message + error', done => {
       appController.startWorker();
 
-      // I really dont like doing this
+      // I really dont like doing this ( Also causes Jest error I'm really not happy about )
       // But I cant find any info on how to await for an observable with jest
-      setTimeout(() => expect(appController.getHello()).toContain('more info'), 1000);
+      setTimeout(() => {
+        expect(appController.getHello()).toContain('more info');
+        done();
+      }, 1000);
+    });
+
+    it('Should return "No Errors"', () => {
+      expect(appController.errors()).toBe("No Errors");
+    });
+
+    it('Should return "No Errors"', done => {
+      appController.startWorker();
+
+      setTimeout(() => {
+        // intanceof doesnt work
+        expect(appController.errors()).toHaveProperty('errno');
+        done();
+      }, 1000);
     });
   });
 });
